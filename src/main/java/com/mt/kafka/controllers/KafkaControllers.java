@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/kafka")
 public class KafkaControllers {
 
-    private final IKafkaProducer kafkaProducer;
+    private final IKafkaProducer<String> kafkaProducer;
 
-    public KafkaControllers(KafkaProducer kafkaProducer) {
+    public KafkaControllers(KafkaProducer<String> kafkaProducer) {
         this.kafkaProducer = kafkaProducer;
     }
 
@@ -22,4 +22,10 @@ public class KafkaControllers {
     public void sendMessageToKafka(@RequestParam("message") String message) {
         this.kafkaProducer.sendMessage(message);
     }
+
+    @PostMapping(value = "/produceCallback")
+    public void sendMessageToKafkaCallback(@RequestParam("message") String message) {
+        this.kafkaProducer.sendWithCallback(message);
+    }
+
 }
