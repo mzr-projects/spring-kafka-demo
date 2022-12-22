@@ -6,7 +6,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class KafkaProducer {
+public class KafkaProducer implements IKafkaProducer {
 
     private static final Logger logger = LoggerFactory.getLogger(KafkaProducer.class);
     private static final String TOPIC_NAME = "kafka-demo-three-partitions-springboot";

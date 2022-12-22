@@ -1,6 +1,7 @@
 package com.mt.kafka.controllers;
 
 
+import com.mt.kafka.producers.IKafkaProducer;
 import com.mt.kafka.producers.KafkaProducer;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/kafka")
 public class KafkaControllers {
 
-    private final KafkaProducer kafkaProducer;
+    private final IKafkaProducer kafkaProducer;
 
     public KafkaControllers(KafkaProducer kafkaProducer) {
         this.kafkaProducer = kafkaProducer;
