@@ -1,21 +1,15 @@
-package com.mt.kafka.configs;
+package com.mt.kafka.demo.configs;
 
 import org.apache.kafka.clients.admin.NewTopic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.TopicBuilder;
-import org.springframework.kafka.core.KafkaTemplate;
 
+@ConditionalOnProperty(prefix = "kafka.project.demo", name = "flag", havingValue = "true", matchIfMissing = false)
 @Configuration
 public class KafkaConfigs {
-
-    private static final Logger logger = LoggerFactory.getLogger(KafkaConfigs.class);
 
     @Value("${topic.name}")
     private String topicName;
@@ -23,6 +17,11 @@ public class KafkaConfigs {
     @Value("${topic.name.no.group}")
     private String topicNameNoGroup;
 
+    /**
+     * Here we create a Kafka topic without group
+     *
+     * @return
+     */
     @ConditionalOnProperty(prefix = "topic.no.group", name = "flag", havingValue = "true", matchIfMissing = true)
     @Bean(name = "topicNoGroup")
     public NewTopic topicNoGroup() {
@@ -32,6 +31,11 @@ public class KafkaConfigs {
                 .build();
     }
 
+    /**
+     * Here we create a kafka topic with a group assigned to it
+     *
+     * @return
+     */
     @ConditionalOnProperty(prefix = "topic.no.group", name = "flag", havingValue = "false")
     @Bean(name = "topicWithGroup")
     public NewTopic topicWithGroups() {
@@ -40,18 +44,4 @@ public class KafkaConfigs {
                 .replicas(1)
                 .build();
     }
-
-    /*
-    @KafkaListener(id = "kafka-demo-listener", topics = "kafka-demo-three-partitions-springboot")
-    public void listen(String inComeMessage) {
-        logger.info("Kafka listener : {}", inComeMessage);
-    }*/
-
-    /*
-    @Bean
-    public ApplicationRunner runner(KafkaTemplate<String, String> template) {
-        return args -> {
-            template.send("kafka-demo-three-partitions-springboot", "spring-boot-test-data");
-        };
-    }*/
 }
